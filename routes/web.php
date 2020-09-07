@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 use App\Post; // I need use Post model
+use App\User; // I need use User model
 
 Route::get('/eloquent', function () {
     // Geting all the post in the Data Base
@@ -26,5 +27,29 @@ Route::get('/eloquent', function () {
         ->get();
     foreach ($posts as $post) {
         echo "$post->id $post->title <br/>";
+    }
+});
+
+Route::get('posts', function () {
+    $posts = Post::all();
+
+    foreach ($posts as $post) {
+        echo "
+            $post->id
+            <strong>{$post->user->name}</strong>
+            $post->title <br/>
+        ";
+    }
+});
+
+Route::get('users', function () {
+    $users = User::all();
+
+    foreach ($users as $user) {
+        echo "
+            $user->id
+            <strong>$user->name->name</strong>
+            {$user->posts->count()} <br/>
+        ";
     }
 });
